@@ -57,3 +57,11 @@ jobs:
       - name: Terraform plan status
         if: steps.plan.outcome == 'failure'
         run: exit 1
+
+      - name: Terraform apply
+        if: steps.plan.outcome == 'success'
+        run: terraform apply -auto-approve planfile
+
+      - name: Cleanup
+        if: always()
+        run: rm -f planfile
